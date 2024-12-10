@@ -1,4 +1,4 @@
-package LRUcache
+package LRUCache
 
 type List struct {
 	firstNode *Node

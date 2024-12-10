@@ -1,4 +1,4 @@
-package LRUcache
+package LRUCache
 
 import "sync"
 
