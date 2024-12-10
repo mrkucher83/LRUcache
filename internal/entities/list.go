@@ -1,9 +1,9 @@
 package entities
 
 type List struct {
-	FirstNode *Node
-	LastNode  *Node
-	Amount    int
+	firstNode *Node
+	lastNode  *Node
+	amount    int
 }
 
 type Node struct {
@@ -17,64 +17,74 @@ func NewList() *List {
 }
 
 func (l *List) Len() int {
-	return l.Amount
+	return l.amount
 }
 
-func (l *List) PushFront(v interface{}) {
-	node := &Node{v, l.FirstNode, nil}
+func (l *List) PushFront(v interface{}) *Node {
+	node := &Node{v, l.firstNode, nil}
 	if l.Len() == 0 {
-		l.LastNode = node
+		l.lastNode = node
 	} else {
-		l.FirstNode.Prev = node
+		l.firstNode.Prev = node
 	}
 
-	l.FirstNode = node
-	l.Amount++
+	l.firstNode = node
+	l.amount++
+
+	return node
 }
 
 func (l *List) PushBack(v interface{}) {
-	node := &Node{v, nil, l.LastNode}
+	node := &Node{v, nil, l.lastNode}
 	if l.Len() == 0 {
-		l.FirstNode = node
+		l.firstNode = node
 	} else {
-		l.LastNode.Next = node
+		l.lastNode.Next = node
 	}
 
-	l.LastNode = node
-	l.Amount++
+	l.lastNode = node
+	l.amount++
 }
 
 func (l *List) Remove(node *Node) {
 	if node.Prev == nil {
-		l.FirstNode = node.Next
+		l.firstNode = node.Next
 	} else {
 		node.Prev.Next = node.Next
 	}
 
 	if node.Next == nil {
-		l.LastNode = node.Prev
+		l.lastNode = node.Prev
 	} else {
 		node.Next.Prev = node.Prev
 	}
 
-	l.Amount--
+	l.amount--
 }
 
-func (l *List) MoveFront(node *Node) {
-	if l.FirstNode == node {
+func (l *List) MoveToFront(node *Node) {
+	if l.firstNode == node {
 		return
 	}
 
-	if l.LastNode == node {
-		l.LastNode = node.Prev
+	if l.lastNode == node {
+		l.lastNode = node.Prev
 		node.Prev.Next = nil
 	} else {
 		node.Prev.Next = node.Next
 		node.Next.Prev = node.Prev
 	}
 
-	l.FirstNode.Prev = node
+	l.firstNode.Prev = node
 	node.Prev = nil
-	node.Next = l.FirstNode
-	l.FirstNode = node
+	node.Next = l.firstNode
+	l.firstNode = node
+}
+
+func (l *List) First() *Node {
+	return l.firstNode
+}
+
+func (l *List) Last() *Node {
+	return l.lastNode
 }
