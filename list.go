@@ -1,4 +1,4 @@
-package entities
+package LRUcache
 
 type List struct {
 	firstNode *Node
